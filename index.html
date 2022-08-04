@@ -89,6 +89,54 @@
         <div class='map-overlay' id='features'><h2>Schuttrange Vegetation Proximity</h2><div id='pd'><p>CFL Demo</p></div></div>
         <div class='map-overlay' id='legend'></div>
 
+        
+        <style>
+            #menu {
+            background: #fff;
+            position: absolute;
+            z-index: 1;
+            top: 10px;
+            right: 10px;
+            border-radius: 3px;
+            width: 120px;
+            border: 1px solid rgba(0, 0, 0, 0.4);
+            font-family: 'Open Sans', sans-serif;
+            }
+
+            #menu a {
+            font-size: 13px;
+            color: #404040;
+            display: block;
+            margin: 0;
+            padding: 0;
+            padding: 10px;
+            text-decoration: none;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+            text-align: center;
+            }
+
+            #menu a:last-child {
+            border: none;
+            }
+
+            #menu a:hover {
+            background-color: #f8f8f8;
+            color: #404040;
+            }
+
+            #menu a.active {
+            background-color: #3887be;
+            color: #ffffff;
+            }
+
+            #menu a.active:hover {
+            background: #3074a4;
+            }
+            </style>
+
+        <nav id="menu"></nav>
+        <div id="map"></div>
+
         <script> 
             // define access token
             mapboxgl.accessToken = 'pk.eyJ1Ijoicm93YW5zdGVlbGUiLCJhIjoiY2w2ZXdkNXRzMGJkMDNlcHJnOHh2NjV0MSJ9.ktlYxOWxjLLVpnLti3S3pg';
@@ -104,61 +152,61 @@
                 // make a pointer cursor
                 map.getCanvas().style.cursor = 'default';
         
-                // leave map bounds as default for map
-//                 map.fitBounds([
-//                     [49.63684, 6.25699],
-//                     [49.61843, 6.27540]
-//                 ]);
-
-                // // define layer names
-                // const layers = [
-                // '0-10',
-                // '10-20',
-                // '20-50',
-                // '50-100',
-                // '100-200',
-                // '200-500',
-                // '500-1000',
-                // '1000+'
-                // ];
-                // const colors = [
-                // '#FFEDA0',
-                // '#FED976',
-                // '#FEB24C',
-                // '#FD8D3C',
-                // '#FC4E2A',
-                // '#E31A1C',
-                // '#BD0026',
-                // '#800026'
-                // ];
-            
-                // // create legend
-                // const legend = document.getElementById('legend');
-        
-                // layers.forEach((layer, i) => {
-                //     const color = colors[i];
-                //     const item = document.createElement('div');
-                //     const key = document.createElement('span');
-                //     key.className = 'legend-key';
-                //     key.style.backgroundColor = color;
-                
-                //     const value = document.createElement('span');
-                //     value.innerHTML = `${layer}`;
-                //     item.appendChild(key);
-                //     item.appendChild(value);
-                //     legend.appendChild(item);
-                // });
-        
-                // // change info window on hover
-                // map.on('mousemove', (event) => {
-                //     const states = map.queryRenderedFeatures(event.point, {
-                //     layers: ['statedata']
-                //     });
-                //     document.getElementById('pd').innerHTML = states.length
-                //     ? `<h3>${states[0].properties.name}</h3><p><strong><em>${states[0].properties.density}</strong> people per square mile</em></p>`
-                //     : `<p>Hover over a state!</p>`;
-                // });
             });
+          
+          // After the last frame rendered before the map enters an "idle" state.
+          map.on('idle', () => {
+          // If these two layers were not added to the map, abort
+          if (!map.getLayer('contours') || !map.getLayer('museums')) {
+          return;
+          }
+
+          // Enumerate ids of the layers.
+          const toggleableLayerIds = ['contours', 'museums'];
+
+          // Set up the corresponding toggle button for each layer.
+          for (const id of toggleableLayerIds) {
+          // Skip layers that already have a button set up.
+          if (document.getElementById(id)) {
+          continue;
+          }
+
+          // Create a link.
+          const link = document.createElement('a');
+          link.id = id;
+          link.href = '#';
+          link.textContent = id;
+          link.className = 'active';
+
+          // Show or hide layer when the toggle is clicked.
+          link.onclick = function (e) {
+          const clickedLayer = this.textContent;
+          e.preventDefault();
+          e.stopPropagation();
+
+          const visibility = map.getLayoutProperty(
+          clickedLayer,
+          'visibility'
+          );
+
+          // Toggle layer visibility by changing the layout object's visibility property.
+          if (visibility === 'visible') {
+          map.setLayoutProperty(clickedLayer, 'visibility', 'none');
+          this.className = '';
+          } else {
+          this.className = 'active';
+          map.setLayoutProperty(
+          clickedLayer,
+          'visibility',
+          'visible'
+          );
+          }
+          };
+
+          const layers = document.getElementById('menu');
+          layers.appendChild(link);
+          }
+          });
 
         </script>
     </body>
