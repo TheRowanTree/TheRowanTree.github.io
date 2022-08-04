@@ -13,6 +13,8 @@
         />
 
         <style>
+        
+        /* Define text styling */
         body {
             margin: 0;
             padding: 0;
@@ -21,20 +23,19 @@
         h2,
         h3 {
             margin: 10px;
-            font-size: 18px;
+            font-size: 14px;
         }
         
         h3 {
-            font-size: 16px;
+            font-size: 12px;
         }
         
         p {
             margin: 10px;
         }
         
-        /**
-        * Create a position for the map
-        * on the page */
+        /* Create a position for the map on the page */
+        
         #map {
             position: absolute;
             top: 0;
@@ -49,22 +50,24 @@
         .map-overlay {
             position: absolute;
             bottom: 0;
-            right: 0;
+            left: 0;
             background: #fff;
-            margin-right: 20px;
+            margin-left: 10px;
             font-family: Arial, sans-serif;
             overflow: auto;
             border-radius: 3px;
         }
         
+        /*This is the header*/
+
         #features {
             top: 0;
-            height: 100px;
-            margin-top: 20px;
+            height: 80px;
+            margin-top: 10px;
             width: 250px;
         }
         
-        /* #legend {
+         #legend {
             padding: 10px;
             box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
             line-height: 18px;
@@ -86,7 +89,7 @@
     
     <body>
         <div id='map'></div>
-        <div class='map-overlay' id='features'><h2>Schuttrange Vegetation Proximity</h2><div id='pd'><p>CFL Demo</p></div></div>
+        <div class='map-overlay' id='features'><h2>Schuttrange Vegetation Proximity</h2><div id='pd'><h3>CFL Demo</h3></div></div>
         <div class='map-overlay' id='legend'></div>
 
         
@@ -98,7 +101,7 @@
             top: 10px;
             right: 10px;
             border-radius: 3px;
-            width: 120px;
+            width: 150px;
             border: 1px solid rgba(0, 0, 0, 0.4);
             font-family: 'Open Sans', sans-serif;
             }
@@ -156,13 +159,13 @@
           
           // After the last frame rendered before the map enters an "idle" state.
           map.on('idle', () => {
-          // If these two layers were not added to the map, abort
-          if (!map.getLayer('contours') || !map.getLayer('museums')) {
+          // If these layers were not added to the map, abort
+          if (!map.getLayer('Tree-Shrub Risk Map') || !map.getLayer('Tree-Shrub Height') || !map.getLayer('Tree-Shrub Presence') || !map.getLayer('satellite')) {
           return;
           }
 
-          // Enumerate ids of the layers.
-          const toggleableLayerIds = ['contours', 'museums'];
+        // Enumerate ids of the layers.
+          const toggleableLayerIds = ['Tree-Shrub Risk Map', 'Tree-Shrub Height', 'Tree-Shrub Presence', 'satellite'];
 
           // Set up the corresponding toggle button for each layer.
           for (const id of toggleableLayerIds) {
@@ -211,4 +214,3 @@
         </script>
     </body>
 </html>
-
