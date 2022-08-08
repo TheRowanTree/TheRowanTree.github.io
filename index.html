@@ -4,13 +4,16 @@
         <meta charset="utf-8" />
         <title>CFL Demo: Schuttrange Vegetation Proximity Dashboard</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-
         <script src='https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.js'></script>
-        <link 
+        <link
         href='https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css' 
         rel='stylesheet' 
         />
+                    <!-- Load the `mapbox-gl-geocoder` plugin. -->
+                    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
+                    <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css" type="text/css">
+        
+        
 
         <style>
         
@@ -67,6 +70,8 @@
             margin-top: 10px;
             width: 340px;
         }
+
+        
         /*
          #legend {
             padding: 10px;
@@ -140,9 +145,11 @@
             }
             </style>
 
+
         <nav id="menu"></nav>
 
         <script> 
+            
             // define access token
             mapboxgl.accessToken = 'pk.eyJ1Ijoicm93YW5zdGVlbGUiLCJhIjoiY2w2ZXdkNXRzMGJkMDNlcHJnOHh2NjV0MSJ9.ktlYxOWxjLLVpnLti3S3pg';
             
@@ -151,12 +158,22 @@
                 container: 'map', // container id
                 style: 'mapbox://styles/rowansteele/cl6dng615005l14pao4fd1hf3'
                 });
+
             
+
+            
+            
+
             // wait for map to load before adjusting it
             map.on('load', () => {
                 // make a pointer cursor
                 map.getCanvas().style.cursor = 'default';
-        
+
+                // Add geocoder (search bar) to the map.
+                map.addControl(new MapboxGeocoder({accessToken: mapboxgl.accessToken,mapboxgl: mapboxgl}));
+
+                // Add navigation controls (zoom etc to map)
+                map.addControl(new mapboxgl.NavigationControl());
             });
           
           // After the last frame rendered before the map enters an "idle" state.
