@@ -5,7 +5,6 @@
         <title>CFL Demo: Schuttrange Vegetation Proximity Dashboard</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <script src='https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.js'></script>
-        
         <link
         href='https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css' 
         rel='stylesheet' 
@@ -16,8 +15,6 @@
 
         <!--Load the 'mapbox-gl-legend' plugin-->
         <link href='./mapbox-gl-legend.css' rel='stylesheet' />
-
-
         
         <style>
         
@@ -128,9 +125,14 @@
             #menu a.active:hover {
             background: #00502A;
             }
+
+            .mapboxgl-popup {
+                max-width: 400px;
+                font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+            }
             </style>
 
-
+            
         <nav id="menu"></nav>
 
         <script> 
@@ -156,8 +158,6 @@
                 map.addControl(new mapboxgl.NavigationControl());
 
             });
-
-
           
           // After the last frame rendered before the map enters an "idle" state.
           map.on('idle', () => {
@@ -166,7 +166,7 @@
           return;
           }
 
-        // Enumerate ids of the layers.
+          // Enumerate ids of the layers.
           const toggleableLayerIds = ['Tree-Shrub Risk Map', 'Tree-Shrub Height', 'Tree-Shrub Presence', 'Tree Plot', 'satellite'];
 
           // Set up the corresponding toggle button for each layer.
@@ -213,7 +213,53 @@
           }
           });
         
+          //Add legend
+          map.on('load', function() {
+                const targets = {
+                    'satellite': 'Satellite',
+                    'bridge-rail-tracks': 'Railway Bridges',
+                    'road-rail-tracks': 'Railway Tracks',
+                    'Tunnels-rail-tracks': 'Railway Tunnels',                    
+                    'Tree Plot': 'Tree Plot', 
+                    'Tree-Shrub Risk Map': 'Tree-Shrub Risk Map',
+                };
+                map.addControl(new watergis.MapboxLegendControl(targets, {
+                    showDefault: false, 
+                    showCheckbox: true, 
+                    onlyRendered: false, 
+                    reverseOrder: true
+                }), 'bottom-left');
+            })
 
+            // When a click event occurs on a feature in the tree plot layer,
+            // open a popup at the location of the click, with description
+            // HTML from the click event's properties.
+            map.on('click', 'Tree Plot', (e) => {
+            new mapboxgl.Popup()
+            .setLngLat(e.lngLat)
+            .setHTML('<strong> Tree ID: ' + e.features[0].properties.id + '</strong>' 
+            + '<p>Canopy Width: ' + e.features[0].properties.Width + '</p>'
+            + '<p>Maximum Height: ' + e.features[0].properties.Height + '</p>'
+            + '<p>Latitude: ' + e.features[0].properties.Latitude + '</p>'
+            + '<p>Longitude: ' + e.features[0].properties.Longitude + '</p>'
+            + '<p>Remarkable Tree: ' + e.features[0].properties.Remarkable + '</p>'
+            + '<p>Description: ' + e.features[0].properties.Notes)
+            .addTo(map);
+            });
+
+            
+            
+            // Change the cursor to a pointer when
+            // the mouse is over the Tree Plot layer.
+            map.on('mouseenter', 'Tree Plot', () => {
+            map.getCanvas().style.cursor = 'pointer';
+            });
+            
+            // Change the cursor back to a pointer
+            // when it leaves the Tree Plot layer.
+            map.on('mouseleave', 'Tree Plot', () => {
+            map.getCanvas().style.cursor = '';
+            });
 
         </script>
     </body>
