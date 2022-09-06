@@ -38,6 +38,7 @@
         #map {
             position: absolute;
             top: 0;
+            left: 250px;
             bottom: 0;
             width: 100%;
         }
@@ -50,56 +51,84 @@
         .map-overlay {
             position: absolute;
             bottom: 0;
-            left: 0;
-            background: #fff;
             margin-left: 10px;
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI';
             overflow: auto;
             border-radius: 3px;
         }
         
-        /*This is the title box*/
-
-        #features {
-            top: 0;
-            height: 40px;
-            margin-top: 10px;
-            width: 340px;
-        }
         </style>
     </head>
     
     <body>
         <div id='map'></div>
-        <div class='map-overlay' id='features'><h2>CFL Demo: Schuttrange Vegetation Proximity</h2></div></div>
-        <div class='map-overlay' id='legend'></div>
- 
-        
+        <!-- Side navigation -->
+        <div class="sidenav">
+            <!--Add WEO Logo-->
+            <div class="logos">
+                <img src="https://www.weo-water.com/wp-content/uploads/2021/11/weo-logo_web.png" alt="WEO Logo" class="image">
+                <img src="https://www.cfl.lu/getattachment/c221c4e8-b389-4fae-85a3-a41f43f8d4dc/cfl_logo_2022_web-1-.png" alt="CFL Logo" class="image">
+            </div>
+            <!--Add titles-->
+            <div class='title'><h2>Layer Control</h2></div>
+            <div class='map-overlay' id='layer-control'></div>
+        </div>
+    
+
         <style>
+
+        /*This is the sidebar */
+
+
+        
+        .sidenav {
+        height: 100%; /* Full-height: remove this if you want "auto" height */
+        width: 250px; /* Set the width of the sidebar */
+        position: absolute; /* Fixed Sidebar (stay in place on scroll) */
+        z-index: 1; /* Stay on top */
+        top: 0; /* Stay at the top */
+        left: 0;
+        background-color: rgb(0, 0, 0);
+        box-shadow: rgba(255, 255, 255, 0.25) 1px 1px 4px;
+        text-align: center;    
+        }
+
+        .logos {
+            line-height: 1.5715; 
+            left:10px;
+        }
+
+        .title{
+            line-height: 1.5715; 
+            font-family: 'Segoe UI';
+            color:#a2a2a2
+
+        }
+
+
 
         /*This is the layer control box*/
 
             #menu {
-            background: #fff;
             position: absolute;
-            z-index: 1;
-            top: 60px;
+            z-index: 999;
+            top: 170px;
             left: 10px;
-            width: 150px;
-            border: 3px solid rgba(0, 0, 0, 0.4);
-            font-family: 'Open Sans', sans-serif;
+            width: 230px;
+            border: 0px solid rgba(0, 0, 0, 0.4);
+            font-family: 'Segoe UI';
             }
 
             #menu a {
             font-size: 13px;
-            color: #404040;
+            background-color:rgb(37, 37, 37);
+            color: #ffffff;
             display: block;
             margin: 0;
-            padding: 0;
             padding: 10px;
             text-decoration: none;
             border-bottom: 1px solid rgba(0, 0, 0, 0.25);
-            text-align: center;
+            text-align: left;
             }
 
             #menu a:last-child {
@@ -107,17 +136,19 @@
             }
 
             #menu a:hover {
-            background-color: #f8f8f8;
-            color: #404040;
+            background: #ffffff;
+            color:rgb(157, 155, 155)
             }
 
             #menu a.active {
-            background-color: #009A51;
-            color: #ffffff;
+            background-color: #ddd8f0;
+            color: #383838;
             }
 
+
             #menu a.active:hover {
-            background: #00502A;
+            background: #ffffff;
+            color:rgb(0, 0, 0)
             }
 
             .mapboxgl-popup {
