@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Example</title>
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+<link href='https://api.mapbox.com/mapbox-gl-js/v1.13.1/mapbox-gl.css' rel='stylesheet' />
+<link href='./mapbox-gl-legend.css' rel='stylesheet' />
+<style>
+    body { margin: 0; padding: 0; }
+    #map { position: absolute; top: 0; bottom: 0; width: 100%;z-index: 10;}
+</style>
+</head>
+    <body>
+        <div id="map"></div>
+        <script src='https://api.mapbox.com/mapbox-gl-js/v1.13.1/mapbox-gl.js'></script>
+        <script src="https://watergis.github.io/mapbox-gl-legend/mapbox-gl-legend.js"></script>
+        <script src="./mapbox-gl-legend.js"></script>
+        <script>
+            mapboxgl.accessToken = 'pk.eyJ1Ijoicm93YW5zdGVlbGUiLCJhIjoiY2w2ZXdkNXRzMGJkMDNlcHJnOHh2NjV0MSJ9.ktlYxOWxjLLVpnLti3S3pg';
+
+            const map = new mapboxgl.Map({
+                container: 'map',
+                style:'mapbox://styles/rowansteele/cl6dng615005l14pao4fd1hf3',
+                hash:true,
+            });
+            map.addControl(new mapboxgl.NavigationControl(), 'top-right');
+            map.on('load', function() {
+                const targets = {
+                    'satellite': 'Satellite',
+                    'bridge-rail-tracks': 'Railway Bridges',
+                    'road-rail-tracks': 'Railway Tracks',
+                    'Tunnels-rail-tracks': 'Railway Tunnels',                    
+                    'Tree Plot': 'Tree Plot', 
+                    'Tree-Shrub Risk Map': 'Tree-Shrub Risk Map',
+
+                    'bridge-rail-tracks': 'Railway Bridges',
+
+                    
+                };
+                map.addControl(new watergis.MapboxLegendControl(targets, {
+                    showDefault: false, 
+                    showCheckbox: false, 
+                    onlyRendered: true,
+                    reverseOrder: true
+                }), 'top-right');
+            })
+        </script>
+    </body>
+</html>

@@ -5,16 +5,27 @@
         <title>CFL Demo: Schuttrange Vegetation Proximity Dashboard</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <script src='https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.js'></script>
-        <link href='https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css' rel='stylesheet' />
+
+        <link
+        href='https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css' 
+        rel='stylesheet' 
+        />
+                    <!-- Load the `mapbox-gl-geocoder` plugin. -->
+                    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
+                    <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css" type="text/css">
+
+
         <!-- Load the `mapbox-gl-geocoder` plugin. -->
         <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
         <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css" type="text/css">
 
         <!--Load the 'mapbox-gl-legend' plugin-->
-        <!-- <link href='https://watergis.github.io/mapbox-gl-legend/mapbox-gl-legend.css' rel='stylesheet' /> -->
-        
+        <link href='./mapbox-gl-legend.css' rel='stylesheet' />
+
+
+
         <style>
-        
+
         /* Define text styling */
         body {
             margin: 0;
@@ -61,27 +72,46 @@
         }
         
         /*This is the title box*/
-
         #features {
             top: 0;
             height: 40px;
             margin-top: 10px;
             width: 340px;
         }
+
+
+        /*
+         #legend {
+            padding: 10px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            line-height: 18px;
+            height: 150px;
+            margin-bottom: 40px;
+            width: 100px;
+        }
+        
+        .legend-key {
+            display: inline-block;
+            border-radius: 20%;
+            width: 10px;
+            height: 10px;
+            margin-right: 5px;
+        } */
+
         </style>
     </head>
-    
+
     <body>
         <div id='map'></div>
         <div class='map-overlay' id='features'><h2>CFL Demo: Schuttrange Vegetation Proximity</h2></div></div>
         <div class='map-overlay' id='legend'></div>
-        <!-- <script src="https://watergis.github.io/mapbox-gl-legend/mapbox-gl-legend.js"></script>       -->
-        <script src="./mapbox-gl-legend.js"></script>     
-        
+
+        <script src="https://watergis.github.io/mapbox-gl-legend/mapbox-gl-legend.js"></script>
+        <script src="./mapbox-gl-legend.js"></script>        
+
         <style>
 
         /*This is the layer control box*/
-
             #menu {
             background: #fff;
             position: absolute;
@@ -92,7 +122,6 @@
             border: 3px solid rgba(0, 0, 0, 0.4);
             font-family: 'Open Sans', sans-serif;
             }
-
             #menu a {
             font-size: 13px;
             color: #404040;
@@ -104,34 +133,22 @@
             border-bottom: 1px solid rgba(0, 0, 0, 0.25);
             text-align: center;
             }
-
             #menu a:last-child {
             border: none;
             }
-
             #menu a:hover {
             background-color: #f8f8f8;
             color: #404040;
             }
-
             #menu a.active {
             background-color: #009A51;
             color: #ffffff;
             }
-
             #menu a.active:hover {
             background: #00502A;
             }
-
-            .mapboxgl-popup {
-                max-width: 400px;
-                font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
-            }
             </style>
-
-            
         <nav id="menu"></nav>
-
         <script> 
             
             // define access token
@@ -143,11 +160,15 @@
                 style: 'mapbox://styles/rowansteele/cl6dng615005l14pao4fd1hf3'
                 });
 
+
+
+
+
+
             // wait for map to load before adjusting it
             map.on('load', () => {
                 // make a pointer cursor
                 map.getCanvas().style.cursor = 'default';
-
                 // Add geocoder (search bar) to the map.
                 map.addControl(new MapboxGeocoder({accessToken: mapboxgl.accessToken,mapboxgl: mapboxgl}));
 
@@ -155,15 +176,19 @@
                 map.addControl(new mapboxgl.NavigationControl());
 
             });
-          
+
+
+
           // After the last frame rendered before the map enters an "idle" state.
           map.on('idle', () => {
           // If these layers were not added to the map, abort
+          if (!map.getLayer('Tree-Shrub Risk Map') || !map.getLayer('Tree-Shrub Height') || !map.getLayer('Tree-Shrub Presence') || !map.getLayer('satellite')) {
           if (!map.getLayer('Tree-Shrub Risk Map') || !map.getLayer('Tree-Shrub Height') || !map.getLayer('Tree-Shrub Presence') || !map.getLayer('Tree Plot') || !map.getLayer('satellite')) {
           return;
           }
 
-          // Enumerate ids of the layers.
+        // Enumerate ids of the layers.
+          const toggleableLayerIds = ['Tree-Shrub Risk Map', 'Tree-Shrub Height', 'Tree-Shrub Presence', 'satellite'];
           const toggleableLayerIds = ['Tree-Shrub Risk Map', 'Tree-Shrub Height', 'Tree-Shrub Presence', 'Tree Plot', 'satellite'];
 
           // Set up the corresponding toggle button for each layer.
@@ -172,25 +197,21 @@
           if (document.getElementById(id)) {
           continue;
           }
-
           // Create a link.
           const link = document.createElement('a');
           link.id = id;
           link.href = '#';
           link.textContent = id;
           link.className = 'active';
-
           // Show or hide layer when the toggle is clicked.
           link.onclick = function (e) {
           const clickedLayer = this.textContent;
           e.preventDefault();
           e.stopPropagation();
-
           const visibility = map.getLayoutProperty(
           clickedLayer,
           'visibility'
           );
-
           // Toggle layer visibility by changing the layout object's visibility property.
           if (visibility === 'visible') {
           map.setLayoutProperty(clickedLayer, 'visibility', 'none');
@@ -204,58 +225,12 @@
           );
           }
           };
-
           const layers = document.getElementById('menu');
           layers.appendChild(link);
           }
           });
-        
-        //   //Add legend
-        //   map.on('load', function() {
-        //         const targets = {
-        //             'satellite': 'Satellite',
-        //             'bridge-rail-tracks': 'Railway Bridges',
-        //             'road-rail-tracks': 'Railway Tracks',
-        //             'Tunnels-rail-tracks': 'Railway Tunnels',                    
-        //             'Tree Plot': 'Tree Plot', 
-        //             'Tree-Shrub Risk Map': 'Tree-Shrub Risk Map',
-        //         };
-        //         map.addControl(new watergis.MapboxLegendControl(targets, {
-        //             showDefault: false, 
-        //             showCheckbox: true, 
-        //             onlyRendered: false, 
-        //             reverseOrder: true
-        //         }), 'bottom-left');
-        //     })
 
-            // When a click event occurs on a feature in the tree plot layer,
-            // open a popup at the location of the click, with description
-            // HTML from the click event's properties.
-            map.on('click', 'Tree Plot', (e) => {
-            new mapboxgl.Popup()
-            .setLngLat(e.lngLat)
-            .setHTML('<strong> Tree ID: ' + e.features[0].properties.id + '</strong>' 
-            + '<p>Canopy Width: ' + e.features[0].properties.Width + '</p>'
-            + '<p>Maximum Height: ' + e.features[0].properties.Height + '</p>'
-            + '<p>Latitude: ' + e.features[0].properties.Latitude + '</p>'
-            + '<p>Longitude: ' + e.features[0].properties.Longitude + '</p>'
-            + '<p>Remarkable Tree: ' + e.features[0].properties.Remarkable + '</p>'
-            + '<p>Description: ' + e.features[0].properties.Notes)
-            .addTo(map);
-            });
-           
-            
-            // Change the cursor to a pointer when
-            // the mouse is over the Tree Plot layer.
-            map.on('mouseenter', 'Tree Plot', () => {
-            map.getCanvas().style.cursor = 'pointer';
-            });
-            
-            // Change the cursor back to a pointer
-            // when it leaves the Tree Plot layer.
-            map.on('mouseleave', 'Tree Plot', () => {
-            map.getCanvas().style.cursor = '';
-            });
+
 
         </script>
     </body>
