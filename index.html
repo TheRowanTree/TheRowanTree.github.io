@@ -58,13 +58,14 @@
         <!-- Side navigation -->
         <div class="sidenav">
             <!--Add WEO Logo-->
-            <div class="logos">
-                <img src="https://www.weo-water.com/wp-content/uploads/2021/11/weo-logo_web.png" alt="WEO Logo" class="image">
-                <img src="https://www.cfl.lu/getattachment/c221c4e8-b389-4fae-85a3-a41f43f8d4dc/cfl_logo_2022_web-1-.png" alt="CFL Logo" class="image">
-            </div>
+
+            <img src="https://www.weo-water.com/wp-content/uploads/2022/09/weo-logo-transparent_edit.png" alt="WEO Logo" class="image">
+            <img src="https://www.cfl.lu/getattachment/c221c4e8-b389-4fae-85a3-a41f43f8d4dc/cfl_logo_2022_web-1-.png" alt="CFL Logo" class="image2">
             <!--Add titles-->
             <div class='title'><h2>Layer Control</h2></div>
-            <div class='map-overlay' id='layer-control'></div>
+            <div class='spacer'><h2>Layer Control</h2></div>
+            <div class='title2'><h2>Legend</h2></div>
+            <img src="https://www.weo-water.com/wp-content/uploads/2022/09/Legend.png" alt="WEO Logo" class="image3">
         </div>
     
 
@@ -79,20 +80,48 @@
         z-index: 1; /* Stay on top */
         top: 0; /* Stay at the top */
         left: 0;
-        background-color: rgb(0, 0, 0);
+        background-color: #ffffff; 
         box-shadow: rgba(255, 255, 255, 0.25) 1px 1px 4px;
         text-align: center;    
         }
 
-        .logos {
+        .image {
             line-height: 1.5715; 
             left:10px;
+            width: 230px; 
+        }
+
+        .image2 {
+            line-height: 1.5715; 
+            left:10px;
+            width: 150px; 
+        }
+
+        .image3 {
+            line-height: 1.5715; 
+            left:10px;
+            width: 150px; 
         }
 
         .title{
-            line-height: 1.5715; 
+            line-height: 2; 
             font-family: 'Segoe UI';
-            color:#a2a2a2
+            color:#000000;
+            background-color:#D8C3A5;
+
+        }
+
+        .spacer{
+            line-height: 13.5; 
+            background-color: #ffffff;
+
+        }
+
+        .title2{
+            line-height: 2; 
+            font-family: 'Segoe UI';
+            color:#000000;
+            background-color:#D8C3A5;
 
         }
 
@@ -103,7 +132,7 @@
             #menu {
             position: absolute;
             z-index: 999;
-            top: 170px;
+            top: 160px;
             left: 10px;
             width: 230px;
             border: 0px solid rgba(0, 0, 0, 0.4);
@@ -116,7 +145,7 @@
             color: #ffffff;
             display: block;
             margin: 0;
-            padding: 10px;
+            padding: 5px;
             text-decoration: none;
             border-bottom: 1px solid rgba(0, 0, 0, 0.25);
             text-align: left;
@@ -132,7 +161,7 @@
             }
 
             #menu a.active {
-            background-color: #ddd8f0;
+            background-color: #cec9c3;
             color: #383838;
             }
 
@@ -178,11 +207,9 @@
           // After the last frame rendered before the map enters an "idle" state.
           map.on('idle', () => {
           // If these layers were not added to the map, abort
-             if (!map.getLayer('Tree-Shrub Risk Map 2018') || !map.getLayer('Tree-Shrub Risk Map 2022') || !map.getLayer('Tree-Shrub Height 2019') ||!map.getLayer('Tree-Shrub Presence 2018') ||!map.getLayer('Tree-Shrub Presence 2022') || !map.getLayer('Tree Metadata Demo') || !map.getLayer('satellite')) {
+              if (!map.getLayer('Tree-Shrub Risk Map 2018') || !map.getLayer('Tree-Shrub Risk Map 2022') || !map.getLayer('Tree-Shrub Height 2019') ||!map.getLayer('Tree-Shrub Presence 2018') ||!map.getLayer('Tree-Shrub Presence 2022') || !map.getLayer('Tree Metadata Demo') || !map.getLayer('satellite')) {
           return;
-          }
-
-          //!map.getLayer('Tree-Shrub Risk Map 2018') || !map.getLayer('Tree-Shrub Risk Map 2022') ||!map.getLayer('Tree-Shrub Height 2019') ||!map.getLayer('Tree-Shrub Presence 2018') || !map.getLayer('Tree-Shrub Presence 2022') || !map.getLayer('Tree Metadata Demo') ||
+          } 
 
           // Enumerate ids of the layers.
           const toggleableLayerIds = ['Tree-Shrub Risk Map 2018', 'Tree-Shrub Risk Map 2022', 'Tree-Shrub Height 2019', 'Tree-Shrub Presence 2018', 'Tree-Shrub Presence 2022', 'Tree Metadata Demo', 'satellite'];
