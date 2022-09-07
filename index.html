@@ -178,12 +178,12 @@
           // After the last frame rendered before the map enters an "idle" state.
           map.on('idle', () => {
           // If these layers were not added to the map, abort
-          if (!map.getLayer('Tree-Shrub Risk Map') || !map.getLayer('Tree-Shrub Height') || !map.getLayer('Tree-Shrub Presence') || !map.getLayer('Tree Plot') || !map.getLayer('satellite')) {
+          if (!map.getLayer('Tree-Shrub Risk Map 2018') || !map.getLayer('Tree-Shrub Risk Map 2022') || !map.getLayer('Tree-Shrub Height 2019') || !map.getLayer('Tree-Shrub Presence 2018') || !map.getLayer('Tree-Shrub Presence 2022') || !map.getLayer('Tree Metadata Demo') || !map.getLayer('satellite')) {
           return;
           }
 
           // Enumerate ids of the layers.
-          const toggleableLayerIds = ['Tree-Shrub Risk Map', 'Tree-Shrub Height', 'Tree-Shrub Presence', 'Tree Plot', 'satellite'];
+          const toggleableLayerIds = ['Tree-Shrub Risk Map 2018', 'Tree-Shrub Risk Map 2022', 'Tree-Shrub Height 2019', 'Tree-Shrub Presence 2018', 'Tree-Shrub Presence 2022', 'Tree Metadata Demo', 'satellite'];
 
           // Set up the corresponding toggle button for each layer.
           for (const id of toggleableLayerIds) {
