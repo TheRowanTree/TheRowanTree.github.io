@@ -154,7 +154,7 @@
         <script> 
             
             // define access token
-            mapboxgl.accessToken = 'pk.eyJ1Ijoicm93YW5zdGVlbGUiLCJhIjoiY2w2ZXdkNXRzMGJkMDNlcHJnOHh2NjV0MSJ9.ktlYxOWxjLLVpnLti3S3pg';
+            mapboxgl.accessToken = 'pk.eyJ1Ijoicm93YW5zdGVlbGUiLCJhIjoiY2tuOHNlMmtsMDc1bTJxbGN4MGF3MTc5ayJ9.RnhtKkjVg6GbdJcEk0VrAQ';
             
             // create map
             const map = new mapboxgl.Map({
@@ -178,9 +178,11 @@
           // After the last frame rendered before the map enters an "idle" state.
           map.on('idle', () => {
           // If these layers were not added to the map, abort
-          if (!map.getLayer('Tree-Shrub Risk Map 2018') || !map.getLayer('Tree-Shrub Risk Map 2022') || !map.getLayer('Tree-Shrub Height 2019') || !map.getLayer('Tree-Shrub Presence 2018') || !map.getLayer('Tree-Shrub Presence 2022') || !map.getLayer('Tree Metadata Demo') || !map.getLayer('satellite')) {
+             if (!map.getLayer('Tree-Shrub Risk Map 2018') || !map.getLayer('Tree-Shrub Risk Map 2022') || !map.getLayer('Tree-Shrub Height 2019') ||!map.getLayer('Tree-Shrub Presence 2018') ||!map.getLayer('Tree-Shrub Presence 2022') || !map.getLayer('Tree Metadata Demo') || !map.getLayer('satellite')) {
           return;
           }
+
+          //!map.getLayer('Tree-Shrub Risk Map 2018') || !map.getLayer('Tree-Shrub Risk Map 2022') ||!map.getLayer('Tree-Shrub Height 2019') ||!map.getLayer('Tree-Shrub Presence 2018') || !map.getLayer('Tree-Shrub Presence 2022') || !map.getLayer('Tree Metadata Demo') ||
 
           // Enumerate ids of the layers.
           const toggleableLayerIds = ['Tree-Shrub Risk Map 2018', 'Tree-Shrub Risk Map 2022', 'Tree-Shrub Height 2019', 'Tree-Shrub Presence 2018', 'Tree-Shrub Presence 2022', 'Tree Metadata Demo', 'satellite'];
